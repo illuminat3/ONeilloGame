@@ -64,7 +64,7 @@ namespace ONeilloApp
             try
             {
                 WebClient webClient = new();
-                byte[] bytes = webClient.DownloadData("https://github.com/illuminat3/ONeillo2.0/raw/main/Icon.ico");
+                byte[] bytes = webClient.DownloadData("https://github.com/illuminat3/ONeilloGame/blob/b9d1c4c0c5a53bef8328ced845fcbc9968a9e1a1/Icon.ico"); //Permalink
 
                 using MemoryStream stream = new(bytes);
                 this.Icon = new Icon(stream);
