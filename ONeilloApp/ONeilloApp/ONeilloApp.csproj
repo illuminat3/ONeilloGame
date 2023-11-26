@@ -13,4 +13,13 @@
     <PackageReference Include="System.Speech" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Files\game_data.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

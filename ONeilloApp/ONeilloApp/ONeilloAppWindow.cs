@@ -9,8 +9,10 @@ namespace ONeilloApp
     {
         #region Variables
 
-        bool isSpeakingEnabled = false;
+        bool isSpeakingEnabled;
+        bool informationPanelEnabled;
         bool firstMove = true;
+        string jsonFilePath = "Files/game_data.json";
         CircleButton[,] buttons = new CircleButton[8, 8];
         CustomObjects.Rectangle informationPanel = new();
 
@@ -21,6 +23,7 @@ namespace ONeilloApp
         public Form1()
         {
             InitializeComponent();
+            SetupSettings();
             WindowIcon();
             Board.InitialiseBoard();
             PopulateGrid();
@@ -42,6 +45,7 @@ namespace ONeilloApp
         {
             Board.InitialiseBoard();
             UpdateGrid();
+            SetupSettings();
 
             Player.player1Name = "Player 1";
             Player.player2Name = "Player 2";
@@ -56,6 +60,14 @@ namespace ONeilloApp
             player1TurnLabel.Visible = false;
             player2TurnLabel.Visible = false;
             firstMove = true;
+        }
+
+        private void SetupSettings()
+        {
+            dynamic data = JsonConvert.DeserializeObject(File.ReadAllText(jsonFilePath));
+
+            isSpeakingEnabled = data.Variables.Speech == 1;
+            informationPanelEnabled = data.Variables.InformationPanel == 1;
         }
 
         //It downloads the window icon from github and then applies it to the window
@@ -209,6 +221,18 @@ namespace ONeilloApp
 
         #region Misc Functions
 
+        //Updates the json file to match with the current state
+        private void UpdateGameData()
+        {
+            dynamic data = JsonConvert.DeserializeObject(File.ReadAllText(jsonFilePath));
+
+            data.Variables.Speech = isSpeakingEnabled ? 1:0;
+            data.Variables.InformationPanel = informationPanelEnabled ? 1:0;
+
+            File.WriteAllText(jsonFilePath,JsonConvert.SerializeObject(data));
+        }
+
+
         //Function to save the game to a json file
         private void SaveGame()
         {
@@ -289,17 +313,25 @@ namespace ONeilloApp
         //Handles Changing the current Turn count icon
         private void ToggleTurnCount()
         {
-            switch (Player.CurrentPlayer)
+            if (informationPanelEnabled)
             {
-                case PossibleValues.WHITE:
-                    player1TurnLabel.Visible = false;
-                    player2TurnLabel.Visible = true;
-                    break;
+                switch (Player.CurrentPlayer)
+                {
+                    case PossibleValues.WHITE:
+                        player1TurnLabel.Visible = false;
+                        player2TurnLabel.Visible = true;
+                        break;
 
-                case PossibleValues.BLACK:
-                    player1TurnLabel.Visible = true;
-                    player2TurnLabel.Visible = false;
-                    break;
+                    case PossibleValues.BLACK:
+                        player1TurnLabel.Visible = true;
+                        player2TurnLabel.Visible = false;
+                        break;
+                }
+            }
+            else
+            {
+                player1TurnLabel.Visible = false;
+                player2TurnLabel.Visible = false;
             }
         }
 
@@ -376,8 +408,10 @@ namespace ONeilloApp
         //Handles Toggling the informationPanel
         private void informationPanelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            informationPanel.Visible = !informationPanel.Visible;
-            informationPanelToolStripMenuItem.Checked = !informationPanel.Visible;
+            SetupSettings();
+            informationPanelEnabled = !informationPanelEnabled;
+            informationPanel.Visible = informationPanelEnabled;
+            informationPanelToolStripMenuItem.Checked = informationPanelEnabled;
             switch (firstMove)
             {
                 case true:
@@ -390,6 +424,8 @@ namespace ONeilloApp
                     player2.Visible = !player2.Visible;
                     break;
             }
+            ToggleTurnCount();
+            UpdateGameData();
 
 
         }
@@ -422,8 +458,10 @@ namespace ONeilloApp
         //Handles the speech button
         private void SpeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SetupSettings();
             isSpeakingEnabled = !isSpeakingEnabled;
             speakToolStripMenuItem.Checked = isSpeakingEnabled;
+            UpdateGameData();
         }
 
         #endregion Event Handlers

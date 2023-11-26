@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace ONeilloApp
+﻿namespace ONeilloApp
 {
     partial class Form1
     {
