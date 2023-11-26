@@ -1,0 +1,84 @@
+﻿The objective of this assignment is for you to design and build an application using C# programming language, following the OOP paradigm. You will implement this as a Windows forms application. The application, named O’Neillo Game, is a game that allows two users to play the Othello board game on a computer.
+
+If you are not familiar with the Othello board game, check the rules page on the World Othello Federation website. You will also find plenty of additional information about the game on the website. You can also have a go at playing online.
+
+
+1.
+Create a static Graphical User Interface (GUI) with the following features: 
+· A title bar showing the application name, O’Neillo Game, and the app icon.  You are welcome to choose your own icon.
+· A menu bar with the menu items shown in Figure 1.
+· A gameplay area, which will contain the game board during gameplay.
+· A game information panel that shows:
+o Each player’s token colour.
+o The number of tokens each player has on the board.
+o Player name – this should not be editable once a game starts.
+o Next player to move indicator (see Figure 2).
+You may choose to place your game information panel somewhere other than the bottom of the window, but your decision must enhance the game experience, not hinder it.
+· Present the application in a fixed-sized window.
+You may choose your own colours but must take into consideration the impact on accessibility.
+
+2.
+Create the dynamic elements of the Graphical User Interface (GUI). The dynamic elements should be similar to Figure 2:
+· The 8 x 8 board for playing the game.
+· Next player to move indicator: there should be indicators that show the players which of them is playing next. Figure 2 uses an image, you are welcome to try something different.
+· The name of the players. This should default to Player #1 and Player #2 if the users don’t provide any.
+
+3.
+Create a 2-dimentional array to represent the O’Neillo Game information in memory. I.e., information about the board, each token and where they are placed on the board.
+
+4.
+Consume the 2-dimensional array in task 3 in the game logic and ensure your game data (represented by the 2-dimensional array) is correctly rendered on the board in task 2.
+
+5.
+On selecting a cell from the GUI, have the application work out which tokens need turning to the current player's colour (if any).
+These marks are broken down into the following tasks:
+
+• Knowing that the move requested is an illegal move = 3
+• Identifies when the current player has no valid move and notifies the player = 4 
+• Turning the tokens on the horizontal and vertical = 5.
+• Turning the tokens on the diagonals = 7.
+
+6.
+Settings menu: each setting works like a switch (reference the image below this task description).
+· When the Setting > Speak menu is checked (turned on), the application will speak out loud each player’s move. Speak should be turned off by default.
+· When Settings > Information Panel is checked (turned on), the information panel described in Task 1 is displayed, it is hidden otherwise. The information panel should be turned on by default.
+
+7.
+Game > New Game menu item: 
+· Add the sub-menu New Game, to the Game menu. When clicked should cause the Dynamic GUI to show the start of a new game as shown in Figure 2. However,
+· If a game is in progress, then prompt the user to save the present game’s state, using a MessageBox, before starting a new game.
+
+- Allow the user to be able to name the state, otherwise, save the game state using the current date and time as its name.
+
+- Also allow the user to select from the list of saved game state to reuse the name, and overwrite the selected game state.
+
+- When saving game state with an existing name, also warn the user they are overwriting a game state and offer an option to stop the action.
+
+- Save the game state data in task 4. All data must be saved to a single Json file named game_data.json.
+• It must be possible to have multiple game states saved to this file – up to a maximum of five game states. When the maximum has been reached, the user must be able to specify which game state to overwrite.
+• The names of the current players must be saved with the game state.
+Game > Exit menu item:
+· Add the sub-menu Exit, to the Game menu. When clicked should close the game. However:
+• If a game is in progress, then prompt the user to save the present game’s state as described for task 6.
+
+8.
+Help > About menu item:
+• Add the sub-menu About to the Help menu. When clicked this should open an About window (Figure 3), which should be a modal window. Feel free to apply your creative freedom here, but the window should provide information about the application and its developer.
+
+9.
+Game > Save Game menu item:
+· Add the sub-menu Save Game, to the Game menu. When clicked, save the current game state to the game_data.json file.
+You should avoid duplicating code and re-use as much of the code you have in task 7 as possible. Like task 7, when requesting to save, a user should be able to provide a name, select existing names from a list and overwrite game state (after user is warned and confirms) if an existing game state name is used. The restriction of five game states still applies. Check the applicable details in task 7.
+
+10.
+Game > Restore Game menu item:
+· Add the sub-menu Restore Game, to the Game menu. When clicked:
+o If there is only one game state saved, restore the game to this state.
+o If more than one game state is saved, allow the user to select a state to restore. The player names should also be restored along with the state of the game.
+When there are no game states saved, this menu item should be disabled.
+
+11.
+· Save the setting changes in task 6 into the game_data.json file. This is an application setting and should not be saved as part of game state.
+· Load and apply the last saved settings when the application re-opens.
+
+
