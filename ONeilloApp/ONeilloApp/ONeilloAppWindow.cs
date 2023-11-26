@@ -61,18 +61,7 @@ namespace ONeilloApp
         //It downloads the window icon from github and then applies it to the window
         private void WindowIcon()
         {
-            try
-            {
-                WebClient webClient = new();
-                byte[] bytes = webClient.DownloadData("https://github.com/illuminat3/ONeilloGame/blob/b9d1c4c0c5a53bef8328ced845fcbc9968a9e1a1/Icon.ico"); //Permalink
-
-                using MemoryStream stream = new(bytes);
-                this.Icon = new Icon(stream);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Could not download or set the icon: " + ex.Message);
-            }
+            this.Icon = new System.Drawing.Icon("Files/Icon.ico");
         }
 
         //Adds all Buttons to Window and 2D Array
