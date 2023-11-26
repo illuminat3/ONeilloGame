@@ -121,33 +121,5 @@
             return x >= 0 && x < 8 && y >= 0 && y < 8;
         }
 
-
-        private static void CountPoints()
-        {
-            int blackScore = 0;
-            int whiteScore = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    switch (Board.CurrentBoard[i,j].Value)
-                    {
-                        case PossibleValues.BLACK:
-                            blackScore++;
-                            break;
-
-                        case PossibleValues.WHITE:
-                            whiteScore++; 
-                            break;
-
-                        default:
-                            break;
-
-                    }
-                }
-            }
-        }
-
-
     }
 }
