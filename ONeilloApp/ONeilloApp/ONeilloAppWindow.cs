@@ -276,7 +276,7 @@ namespace ONeilloApp
 
 
         //Function to load a game from a JSON file
-        private void LoadGame()
+        private void RestoreGame()
         {
             var gameNames = new List<string>();
 
@@ -502,9 +502,9 @@ namespace ONeilloApp
         }
 
         //Handles the load game button
-        private void LoadGameToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RestoreGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadGame();
+            RestoreGame();
         }
 
         //Handles the speech button
