@@ -44,6 +44,7 @@
             Player2TextBox = new TextBox();
             player1TurnLabel = new Label();
             player2TurnLabel = new Label();
+            exitToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -58,7 +59,7 @@
             // 
             // gameToolStripMenuItem
             // 
-            gameToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, loadGameToolStripMenuItem, saveGameToolStripMenuItem });
+            gameToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, loadGameToolStripMenuItem, saveGameToolStripMenuItem, exitToolStripMenuItem });
             gameToolStripMenuItem.Name = "gameToolStripMenuItem";
             gameToolStripMenuItem.Size = new Size(50, 20);
             gameToolStripMenuItem.Text = "Game";
@@ -66,21 +67,21 @@
             // newGameToolStripMenuItem
             // 
             newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            newGameToolStripMenuItem.Size = new Size(134, 22);
+            newGameToolStripMenuItem.Size = new Size(180, 22);
             newGameToolStripMenuItem.Text = "New Game";
             newGameToolStripMenuItem.Click += newGameToolStripMenuItem_Click;
             // 
             // loadGameToolStripMenuItem
             // 
             loadGameToolStripMenuItem.Name = "loadGameToolStripMenuItem";
-            loadGameToolStripMenuItem.Size = new Size(134, 22);
+            loadGameToolStripMenuItem.Size = new Size(180, 22);
             loadGameToolStripMenuItem.Text = "Load Game";
             loadGameToolStripMenuItem.Click += LoadGameToolStripMenuItem_Click;
             // 
             // saveGameToolStripMenuItem
             // 
             saveGameToolStripMenuItem.Name = "saveGameToolStripMenuItem";
-            saveGameToolStripMenuItem.Size = new Size(134, 22);
+            saveGameToolStripMenuItem.Size = new Size(180, 22);
             saveGameToolStripMenuItem.Text = "Save Game";
             saveGameToolStripMenuItem.Click += SaveGameToolStripMenuItem_Click;
             // 
@@ -175,6 +176,13 @@
             player2TurnLabel.Text = "Turn ->";
             player2TurnLabel.Visible = false;
             // 
+            // exitToolStripMenuItem
+            // 
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -220,5 +228,6 @@
         private TextBox Player2TextBox;
         private Label player1TurnLabel;
         private Label player2TurnLabel;
+        private ToolStripMenuItem exitToolStripMenuItem;
     }
 }

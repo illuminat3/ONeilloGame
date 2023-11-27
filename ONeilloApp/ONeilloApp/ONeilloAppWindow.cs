@@ -228,26 +228,30 @@ namespace ONeilloApp
         {
             dynamic data = JsonConvert.DeserializeObject(File.ReadAllText(jsonFilePath));
 
-            data.Variables.Speech = isSpeakingEnabled ? 1:0;
-            data.Variables.InformationPanel = informationPanelEnabled ? 1:0;
+            data.Variables.Speech = isSpeakingEnabled ? 1 : 0;
+            data.Variables.InformationPanel = informationPanelEnabled ? 1 : 0;
 
-            File.WriteAllText(jsonFilePath,JsonConvert.SerializeObject(data));
+            File.WriteAllText(jsonFilePath, JsonConvert.SerializeObject(data));
         }
 
+        //Opens the prompt that asks the user to save the game
         private void SaveGamePrompt()
         {
-            DialogResult dialogResult = MessageBox.Show("Would you like to save this game?", "Save Game", MessageBoxButtons.YesNo);
-
-            if (dialogResult == DialogResult.Yes)
+            if (!firstMove)
             {
-                SaveGame();
+                DialogResult dialogResult = MessageBox.Show("Would you like to save this game?", "Save Game", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    SaveGame();
+                }
             }
         }
 
         //Function to save the game to a json file
         private void SaveGame()
-        { 
-                
+        {
+
             GameState gameState = new()
             {
                 gameName = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
@@ -313,9 +317,31 @@ namespace ONeilloApp
                     player1.Visible = true;
                     player2.Visible = true;
                     UpdateGrid();
-                    
+
                 }
             }
+        }
+
+        //Exits the game
+        private void ExitGame()
+        {
+            Board.BlankBoard();
+            UpdateGrid();
+            SetupSettings();
+
+            Player.player1Name = "Player 1";
+            Player.player2Name = "Player 2";
+            Player1TextBox.Text = Player.player1Name;
+            Player2TextBox.Text = Player.player2Name;
+            Player1TextBox.Visible = true;
+            Player2TextBox.Visible = true;
+            Player1TextBox.Enabled = true;
+            Player2TextBox.Enabled = true;
+            player1.Visible = false;
+            player2.Visible = false;
+            player1TurnLabel.Visible = false;
+            player2TurnLabel.Visible = false;
+            firstMove = true;
         }
 
         //Allows the moves to be spoken audibly, it's asynchronous so it doesn't delay the next move
@@ -488,6 +514,13 @@ namespace ONeilloApp
             isSpeakingEnabled = !isSpeakingEnabled;
             speakToolStripMenuItem.Checked = isSpeakingEnabled;
             UpdateGameData();
+        }
+
+        //Handles the exit game button
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveGamePrompt();
+            ExitGame();
         }
 
         #endregion Event Handlers
