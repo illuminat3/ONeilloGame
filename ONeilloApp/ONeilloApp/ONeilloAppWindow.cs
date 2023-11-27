@@ -2,6 +2,8 @@ using ONeilloApp.CustomObjects;
 using System.Net;
 using Newtonsoft.Json;
 using System.Speech.Synthesis;
+using System.Dynamic;
+using Newtonsoft.Json.Linq;
 
 namespace ONeilloApp
 {
@@ -235,62 +237,75 @@ namespace ONeilloApp
 
         //Function to save the game to a json file
         private void SaveGame()
-        {
-            using SaveFileDialog saveFileDialog = new();
-            saveFileDialog.Filter = "JSON files (*.json)|*.json";
-            saveFileDialog.DefaultExt = "json";
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        { 
+                
+            GameState gameState = new()
             {
-                GameState gameState = new()
-                {
-                    Board = new PossibleValues[8, 8],
-                    CurrentPlayer = Player.CurrentPlayer,
-                    Player1Name = Player.player1Name,
-                    Player2Name = Player.player2Name
-                };
+                gameName = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+                Board = new PossibleValues[8, 8],
+                CurrentPlayer = Player.CurrentPlayer,
+                Player1Name = Player.player1Name,
+                Player2Name = Player.player2Name
+            };
 
-                for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
                 {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        gameState.Board[i, j] = Board.CurrentBoard[i, j].Value;
-                    }
+                    gameState.Board[i, j] = Board.CurrentBoard[i, j].Value;
                 }
-
-                string json = JsonConvert.SerializeObject(gameState);
-                File.WriteAllText(saveFileDialog.FileName, json);
             }
+
+            dynamic data = JsonConvert.DeserializeObject(File.ReadAllText(jsonFilePath));
+            data.Games.Add(JObject.FromObject(gameState));
+            File.WriteAllText(jsonFilePath, JsonConvert.SerializeObject(data, Formatting.Indented));
         }
+
 
         //Function to load a game from a JSON file
         private void LoadGame()
         {
-            using OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = "JSON files (*.json)|*.json";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            var gameNames = new List<string>();
+
+            dynamic data = JsonConvert.DeserializeObject(File.ReadAllText(jsonFilePath));
+            if (data?.Games != null)
             {
-                string json = File.ReadAllText(openFileDialog.FileName);
-                GameState gameState = JsonConvert.DeserializeObject<GameState>(json);
-
-                for (int i = 0; i < 8; i++)
+                foreach (var game in data.Games)
                 {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        Board.CurrentBoard[i, j].Value = gameState.Board[i, j];
-                    }
+                    gameNames.Add(game.gameName.ToString());
                 }
+            }
 
-                Player.CurrentPlayer = gameState.CurrentPlayer;
-                Player.player1Name = gameState.Player1Name;
-                Player1TextBox.Text = gameState.Player1Name;
-                Player2TextBox.Text = gameState.Player2Name;
-                Player1TextBox.Enabled = false;
-                Player2TextBox.Enabled = false;
-                Player1TextBox.Visible = false;
-                Player2TextBox.Visible = false;
-                player1.Visible = true;
-                player2.Visible = true;
-                UpdateGrid();
+            using (var form = new SelectGame(gameNames))
+            {
+                var result = form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    int selectedGame = form.selectedGame;
+                    GameState gameState = data.Games[selectedGame].ToObject<GameState>();
+
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            Board.CurrentBoard[i, j].Value = gameState.Board[i, j];
+                        }
+                    }
+
+                    Player.CurrentPlayer = gameState.CurrentPlayer;
+                    Player.player1Name = gameState.Player1Name;
+                    Player1TextBox.Text = gameState.Player1Name;
+                    Player2TextBox.Text = gameState.Player2Name;
+                    Player1TextBox.Enabled = false;
+                    Player2TextBox.Enabled = false;
+                    Player1TextBox.Visible = false;
+                    Player2TextBox.Visible = false;
+                    player1.Visible = true;
+                    player2.Visible = true;
+                    UpdateGrid();
+                    
+                }
             }
         }
 

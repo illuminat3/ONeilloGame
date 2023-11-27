@@ -10,5 +10,8 @@
     <Compile Update="CustomObjects\Rectangle.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="SelectGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -75,12 +75,14 @@
             loadGameToolStripMenuItem.Name = "loadGameToolStripMenuItem";
             loadGameToolStripMenuItem.Size = new Size(134, 22);
             loadGameToolStripMenuItem.Text = "Load Game";
+            loadGameToolStripMenuItem.Click += LoadGameToolStripMenuItem_Click;
             // 
             // saveGameToolStripMenuItem
             // 
             saveGameToolStripMenuItem.Name = "saveGameToolStripMenuItem";
             saveGameToolStripMenuItem.Size = new Size(134, 22);
             saveGameToolStripMenuItem.Text = "Save Game";
+            saveGameToolStripMenuItem.Click += SaveGameToolStripMenuItem_Click;
             // 
             // settingsToolStripMenuItem
             // 
