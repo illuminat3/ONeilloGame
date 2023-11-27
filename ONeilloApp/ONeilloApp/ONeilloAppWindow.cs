@@ -234,6 +234,15 @@ namespace ONeilloApp
             File.WriteAllText(jsonFilePath,JsonConvert.SerializeObject(data));
         }
 
+        private void SaveGamePrompt()
+        {
+            DialogResult dialogResult = MessageBox.Show("Would you like to save this game?", "Save Game", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                SaveGame();
+            }
+        }
 
         //Function to save the game to a json file
         private void SaveGame()
@@ -400,6 +409,7 @@ namespace ONeilloApp
                     if (GetLegalMoves(Player.Opposite()).Count == 0)
                     {
                         Player.GetWinner();
+                        SaveGamePrompt();
                         NewGame();
                     }
                     else
@@ -417,6 +427,7 @@ namespace ONeilloApp
         //Handles Creating a new game from the menu
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveGamePrompt();
             NewGame();
         }
 
