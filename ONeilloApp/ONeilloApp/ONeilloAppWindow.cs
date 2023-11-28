@@ -30,9 +30,10 @@ namespace ONeilloApp
             Board.InitialiseBoard();
             PopulateGrid();
             this.Paint += new PaintEventHandler(DrawGrid);
-            informationPanel.Location = new Point(10, 730);
-            informationPanel.Size = new Size(670, 60);
+            informationPanel.Location = new Point(5, 730);
+            informationPanel.Size = new Size(685, 60);
             this.Controls.Add(informationPanel);
+            this.ClientSize = new Size(695, 800);
 
 
         }
@@ -189,6 +190,7 @@ namespace ONeilloApp
             }
         }
 
+        //Gets the score
         private void GetScore()
         {
             int blackScore = 0;
@@ -435,7 +437,6 @@ namespace ONeilloApp
                     if (GetLegalMoves(Player.Opposite()).Count == 0)
                     {
                         Player.GetWinner();
-                        SaveGamePrompt();
                         NewGame();
                     }
                     else

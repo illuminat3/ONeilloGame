@@ -132,7 +132,7 @@
             // player1
             // 
             player1.AutoSize = true;
-            player1.Location = new Point(50, 750);
+            player1.Location = new Point(50, 560);
             player1.Name = "player1";
             player1.Size = new Size(0, 15);
             player1.TabIndex = 1;
@@ -140,14 +140,14 @@
             // player2
             // 
             player2.AutoSize = true;
-            player2.Location = new Point(500, 750);
+            player2.Location = new Point(500, 560);
             player2.Name = "player2";
             player2.Size = new Size(0, 15);
             player2.TabIndex = 1;
             // 
             // Player1TextBox
             // 
-            Player1TextBox.Location = new Point(50, 750);
+            Player1TextBox.Location = new Point(50, 560);
             Player1TextBox.Name = "Player1TextBox";
             Player1TextBox.Size = new Size(60, 23);
             Player1TextBox.TabIndex = 2;
@@ -155,7 +155,7 @@
             // 
             // Player2TextBox
             // 
-            Player2TextBox.Location = new Point(500, 750);
+            Player2TextBox.Location = new Point(500, 560);
             Player2TextBox.Name = "Player2TextBox";
             Player2TextBox.Size = new Size(60, 23);
             Player2TextBox.TabIndex = 2;
@@ -165,7 +165,7 @@
             // 
             player1TurnLabel.AutoSize = true;
             player1TurnLabel.Font = new Font("Arial", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            player1TurnLabel.Location = new Point(12, 750);
+            player1TurnLabel.Location = new Point(8, 561);
             player1TurnLabel.Name = "player1TurnLabel";
             player1TurnLabel.Size = new Size(42, 14);
             player1TurnLabel.TabIndex = 4;
@@ -176,7 +176,7 @@
             // 
             player2TurnLabel.AutoSize = true;
             player2TurnLabel.Font = new Font("Arial", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            player2TurnLabel.Location = new Point(458, 751);
+            player2TurnLabel.Location = new Point(458, 561);
             player2TurnLabel.Name = "player2TurnLabel";
             player2TurnLabel.Size = new Size(42, 14);
             player2TurnLabel.TabIndex = 3;
