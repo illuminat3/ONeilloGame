@@ -11,12 +11,12 @@ namespace ONeilloApp
     {
         #region Variables
 
-        bool isSpeakingEnabled;
-        bool informationPanelEnabled;
-        bool firstMove = true;
-        string jsonFilePath = "Files/game_data.json";
-        CircleButton[,] buttons = new CircleButton[8, 8];
-        CustomObjects.Rectangle informationPanel = new();
+        bool isSpeakingEnabled; //Toggles Speech
+        bool informationPanelEnabled; //Toggles Information Panel
+        bool firstMove = true; //Used to hide textboxes and lock names
+        string jsonFilePath = "Files/game_data.json"; //File Path to game_data.json
+        CircleButton[,] buttons = new CircleButton[8, 8]; //Game Board for drawing
+        CustomObjects.Rectangle informationPanel = new(); //Creates the information panel
 
         #endregion Variables
 
@@ -24,18 +24,16 @@ namespace ONeilloApp
         #region Form Creation
         public Form1()
         {
-            InitializeComponent();
-            SetupSettings();
-            WindowIcon();
-            Board.InitialiseBoard();
-            PopulateGrid();
-            this.Paint += new PaintEventHandler(DrawGrid);
-            informationPanel.Location = new Point(5, 730);
-            informationPanel.Size = new Size(685, 60);
-            this.Controls.Add(informationPanel);
-            this.ClientSize = new Size(695, 800);
-
-
+            InitializeComponent(); //Initialise form elements
+            SetupSettings(); //Get speech and information panel status from game_data.json
+            WindowIcon(); //Gets the Icon file
+            Board.InitialiseBoard(); //Create the board for calculatiosn
+            PopulateGrid(); //Add all circle buttons to the visual board 
+            this.Paint += new PaintEventHandler(DrawGrid); //Adds the grid
+            informationPanel.Location = new Point(5, 730); //Places the information panel on the grid
+            informationPanel.Size = new Size(685, 60); //Changes the size of the information panel
+            this.Controls.Add(informationPanel); //Add the information panel to form
+            this.ClientSize = new Size(695, 800); //Sets the window size
         }
 
         #endregion Form Creation
@@ -43,13 +41,16 @@ namespace ONeilloApp
 
         #region Initialisation Functions
 
-        //Creates the gameboard for a new game
+        /// <summary>
+        /// Used to create a new game
+        /// </summary>
         private void NewGame()
         {
-            Board.InitialiseBoard();
-            UpdateGrid();
-            SetupSettings();
+            Board.InitialiseBoard(); //Create a starting position board for calculations
+            UpdateGrid(); //Update the form to show the current position
+            SetupSettings(); //Get the current status of speech and information panel from game_data
 
+            //Setup the player names, allowing the user to change it and defaulting the names to "Player 1" and "Player 2"
             Player.player1Name = "Player 1";
             Player.player2Name = "Player 2";
             Player1TextBox.Text = Player.player1Name;
@@ -62,9 +63,12 @@ namespace ONeilloApp
             player2.Visible = false;
             player1TurnLabel.Visible = false;
             player2TurnLabel.Visible = false;
-            firstMove = true;
+            firstMove = true; //Used to toggle changing the player name
         }
 
+        /// <summary>
+        /// Gets and sets the values of isSpeakingEnabled and informationPanelEnabled from game_data.json
+        /// </summary>
         private void SetupSettings()
         {
             dynamic data = JsonConvert.DeserializeObject(File.ReadAllText(jsonFilePath));
@@ -73,13 +77,18 @@ namespace ONeilloApp
             informationPanelEnabled = data.Variables.InformationPanel == 1;
         }
 
-        //It downloads the window icon from github and then applies it to the window
+        /// <summary>
+        /// It downloads the window icon from github and then applies it to the window
+        /// </summary>
         private void WindowIcon()
         {
             this.Icon = new System.Drawing.Icon("Files/Icon.ico");
         }
 
-        //Adds all Buttons to Window and 2D Array
+        /// <summary>
+        /// Adds all Buttons to Window and 2D Array
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         private void PopulateGrid()
         {
 
@@ -110,7 +119,11 @@ namespace ONeilloApp
             DisplayLegalMoves();
         }
 
-        //Draws the grid on the window
+        /// <summary>
+        /// Draws the grid on the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawGrid(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -133,7 +146,10 @@ namespace ONeilloApp
 
 
 
-        //Updates the window to match with the 2d Array of Buttons
+        /// <summary>
+        /// Updates the window to match with the 2d Array of Buttons
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         private void UpdateGrid()
         {
             for (int i = 0; i < 8; i++)
@@ -162,7 +178,11 @@ namespace ONeilloApp
         }
 
 
-        //Used to show possible legal moves and to determine if a game is continueable
+        /// <summary>
+        /// Used to show possible legal moves and to determine if a game is continueable
+        /// </summary>
+        /// <param name="Value"></param>
+        /// <returns></returns>
         private List<CircleButton> GetLegalMoves(PossibleValues Value)
         {
             List<CircleButton> LegalMoves = new();
@@ -181,7 +201,9 @@ namespace ONeilloApp
             return LegalMoves;
         }
 
-        //Updates the grid to show legal moves in grey
+        /// <summary>
+        /// Updates the grid to show legal moves in grey
+        /// </summary>
         private void DisplayLegalMoves()
         {
             foreach (CircleButton button in GetLegalMoves(Player.CurrentPlayer))
@@ -190,7 +212,9 @@ namespace ONeilloApp
             }
         }
 
-        //Gets the score
+        /// <summary>
+        /// Gets the score
+        /// </summary>
         private void GetScore()
         {
             int blackScore = 0;
@@ -225,7 +249,9 @@ namespace ONeilloApp
 
         #region Misc Functions
 
-        //Updates the json file to match with the current state
+        /// <summary>
+        /// Updates the json file to match with the current state
+        /// </summary>
         private void UpdateGameData()
         {
             dynamic data = JsonConvert.DeserializeObject(File.ReadAllText(jsonFilePath));
@@ -236,7 +262,9 @@ namespace ONeilloApp
             File.WriteAllText(jsonFilePath, JsonConvert.SerializeObject(data));
         }
 
-        //Opens the prompt that asks the user to save the game
+        /// <summary>
+        /// Opens the prompt that asks the user to save the game
+        /// </summary>
         private void SaveGamePrompt()
         {
             if (!firstMove)
@@ -250,7 +278,9 @@ namespace ONeilloApp
             }
         }
 
-        //Function to save the game to a json file
+        /// <summary>
+        /// Function to save the game to a json file
+        /// </summary>
         private void SaveGame()
         {
 
@@ -277,7 +307,9 @@ namespace ONeilloApp
         }
 
 
-        //Function to load a game from a JSON file
+        /// <summary>
+        /// Function to load a game from a JSON file
+        /// </summary>
         private void RestoreGame()
         {
             var gameNames = new List<string>();
@@ -326,7 +358,9 @@ namespace ONeilloApp
             }
         }
 
-        //Exits the game
+        /// <summary>
+        /// Exits the game
+        /// </summary>
         private void ExitGame()
         {
             Board.BlankBoard();
@@ -348,7 +382,10 @@ namespace ONeilloApp
             firstMove = true;
         }
 
-        //Allows the moves to be spoken audibly, it's asynchronous so it doesn't delay the next move
+        /// <summary>
+        /// Allows the moves to be spoken audibly, it's asynchronous so it doesn't delay the next move
+        /// </summary>
+        /// <param name="move"></param>
         private void SpeakMove(string move)
         {
             if (isSpeakingEnabled)
@@ -364,7 +401,9 @@ namespace ONeilloApp
             }
         }
 
-        //Handles Changing the current Turn count icon
+        /// <summary>
+        /// Handles Changing the current Turn count icon
+        /// </summary>
         private void ToggleTurnCount()
         {
             if (informationPanelEnabled)
@@ -396,7 +435,11 @@ namespace ONeilloApp
 
         #region Event Handlers
 
-        // Handles BoardTiles being clicked
+        /// <summary>
+        /// Handles BoardTiles being clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object? sender, EventArgs e)
         {
 
@@ -453,14 +496,22 @@ namespace ONeilloApp
             }
         }
 
-        //Handles Creating a new game from the menu
+        /// <summary>
+        /// Handles Creating a new game from the menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveGamePrompt();
             NewGame();
         }
 
-        //Handles Toggling the informationPanel
+        /// <summary>
+        /// Handles Toggling the informationPanel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void informationPanelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetupSettings();
@@ -485,7 +536,11 @@ namespace ONeilloApp
 
         }
 
-        //Handles the about button
+        /// <summary>
+        /// Handles the about button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AboutToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             string message = "Welcome to ONeillo\n\n" +
@@ -498,19 +553,31 @@ namespace ONeilloApp
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        //Handles the save game button
+        /// <summary>
+        /// Handles the save game button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveGame();
         }
 
-        //Handles the load game button
+        /// <summary>
+        /// Handles the load game button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RestoreGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RestoreGame();
         }
 
-        //Handles the speech button
+        /// <summary>
+        /// Handles the speech button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SpeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetupSettings();
@@ -519,7 +586,11 @@ namespace ONeilloApp
             UpdateGameData();
         }
 
-        //Handles the exit game button
+        /// <summary>
+        /// Handles the exit game button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveGamePrompt();
