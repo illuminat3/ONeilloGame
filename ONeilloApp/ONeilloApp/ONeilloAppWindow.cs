@@ -291,35 +291,37 @@ namespace ONeilloApp
                 }
             }
 
+            if (gameNames.Count != 0) { 
+
             using (var form = new SelectGame(gameNames))
             {
                 var result = form.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    int selectedGame = form.selectedGame;
-                    GameState gameState = data.Games[selectedGame].ToObject<GameState>();
-
-
-                    for (int i = 0; i < 8; i++)
+                    if (result == DialogResult.OK)
                     {
-                        for (int j = 0; j < 8; j++)
+                        int selectedGame = form.selectedGame;
+                        GameState gameState = data.Games[selectedGame].ToObject<GameState>();
+
+
+                        for (int i = 0; i < 8; i++)
                         {
-                            Board.CurrentBoard[i, j].Value = gameState.Board[i, j];
+                            for (int j = 0; j < 8; j++)
+                            {
+                                Board.CurrentBoard[i, j].Value = gameState.Board[i, j];
+                            }
                         }
+
+                        Player.CurrentPlayer = gameState.CurrentPlayer;
+                        Player.player1Name = gameState.Player1Name;
+                        Player1TextBox.Text = gameState.Player1Name;
+                        Player2TextBox.Text = gameState.Player2Name;
+                        Player1TextBox.Enabled = false;
+                        Player2TextBox.Enabled = false;
+                        Player1TextBox.Visible = false;
+                        Player2TextBox.Visible = false;
+                        player1.Visible = true;
+                        player2.Visible = true;
+                        UpdateGrid();
                     }
-
-                    Player.CurrentPlayer = gameState.CurrentPlayer;
-                    Player.player1Name = gameState.Player1Name;
-                    Player1TextBox.Text = gameState.Player1Name;
-                    Player2TextBox.Text = gameState.Player2Name;
-                    Player1TextBox.Enabled = false;
-                    Player2TextBox.Enabled = false;
-                    Player1TextBox.Visible = false;
-                    Player2TextBox.Visible = false;
-                    player1.Visible = true;
-                    player2.Visible = true;
-                    UpdateGrid();
-
                 }
             }
         }
